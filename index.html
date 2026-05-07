@@ -66,7 +66,7 @@
             font-size: 0.95rem;
         }
 
-        /* ส่วนรายการห้องพักที่เพิ่มได้ */
+        /* ส่วนรายการห้องพัก */
         .room-item-row {
             background: #f9f9f9;
             padding: 10px;
@@ -126,8 +126,34 @@
 
         .btn-pdf { background: #e74c3c; }
         .btn-sheet { background: #3498db; }
-        .btn-search { background: #2c3e50; width: 100%; margin-top: 10px; }
 
+        /* --- ส่วนค้นหาที่เพิ่มกลับเข้ามา --- */
+        .search-section { 
+            margin-top: 30px; 
+            border-top: 2px solid #eee; 
+            padding-top: 20px; 
+        }
+        .btn-search { background: #2c3e50; width: 100%; margin-top: 10px; }
+        #searchResultList {
+            margin-top: 15px; 
+            max-height: 300px; 
+            overflow-y: auto;
+        }
+        .search-item {
+            padding: 12px; 
+            border: 1px solid #eee; 
+            border-radius: 8px; 
+            margin-bottom: 8px; 
+            cursor: pointer; 
+            background: #fff; 
+            transition: 0.2s;
+        }
+        .search-item:hover { 
+            border-color: var(--accent); 
+            background: #f0fff4; 
+        }
+
+        /* --- Preview Side --- */
         .preview-side {
             flex-grow: 1; 
             padding: 40px; 
@@ -170,11 +196,7 @@
         th, td { border: 1px solid #000; padding: 10px; text-align: center; }
         th { background: #f9f9f9; }
 
-        /* จัดการเส้นขอบบรรทัดสุดท้าย */
-        .total-row td { 
-            font-weight: bold; 
-            padding: 15px !important; 
-        }
+        .total-row td { font-weight: bold; padding: 15px !important; }
         .no-border-right { border-right: none !important; }
         .no-border-left { border-left: none !important; }
 
@@ -236,6 +258,13 @@
         <div class="action-btns">
             <button class="btn btn-sheet" onclick="saveToSheet()">Save to Sheet</button>
             <button class="btn btn-pdf" onclick="exportPDF()">Save PDF</button>
+        </div>
+
+        <div class="search-section">
+            <label>🔍 ค้นหาตามวันที่ออกใบเสร็จ</label>
+            <input type="date" id="searchDate">
+            <button onclick="searchByDate()" class="btn btn btn-search">ค้นหาข้อมูล</button>
+            <div id="searchResultList"></div>
         </div>
     </div>
 
@@ -300,8 +329,8 @@
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJYN9aYRwI_uwMvw_H5bAuwpz4amSR5iANJQjBGDHkMTSKJsVApdh9ZVOlMC0RMYtN/exec"; 
         const roomOptions = [
             "บ้าน 5 เตียงหน้าทะเล", "บ้าน 8 เตียงหน้าทะเล", "บ้าน 8 เตียงบนเนิน",
-            "บ้านชมพู", "บ้านส้ม", "บ้านลอฟท์1", "บ้านลอฟท์2", "บ้านลอฟท์3", "บ้านลอฟท์4",
-            "บ้านแฝดA", "บ้านแฝดB", "รุ้ง1", "รุ้ง2", "รุ้ง3", "รุ้ง4", "รุ้ง5", "รุ้ง6", "รุ้ง7"
+            "บ้านชมพู", "บ้านส้ม", "บ้านลอฟท์ 1", "บ้านลอฟท์ 2", "บ้านลอฟท์ 3", "บ้านลอฟท์ 4",
+            "บ้านแฝด A", "บ้านแฝด B", "บ้านรุ้ง 1", "บ้านรุ้ง 2", "บ้านรุ้ง 3", "บ้านรุ้ง 4", "บ้านรุ้ง 5", "บ้านรุ้ง 6", "บ้านรุ้ง 7"
         ];
 
         function addRoomRow(data = {name: roomOptions[0], price: 0, qty: 1}) {
@@ -391,22 +420,59 @@
             };
             
             const btn = document.querySelector('.btn-sheet');
-            btn.innerText = "กำลังบันทึก...";
-            btn.disabled = true;
+            btn.innerText = "กำลังบันทึก..."; btn.disabled = true;
 
             try {
                 await fetch(WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', 
+                    method: 'POST', mode: 'no-cors', 
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
                 alert("บันทึกข้อมูลยอดรวมสำเร็จ!");
-            } catch (error) {
-                alert("ผิดพลาด: " + error);
-            } finally {
-                btn.innerText = "Save to Sheet";
-                btn.disabled = false;
+            } catch (error) { alert("ผิดพลาด: " + error); } finally {
+                btn.innerText = "Save to Sheet"; btn.disabled = false;
+            }
+        }
+
+        // --- ฟังก์ชันค้นหากลับคืนมา ---
+        async function searchByDate() {
+            const dateVal = document.getElementById('searchDate').value;
+            if(!dateVal) return alert("กรุณาเลือกวันที่ก่อนค้นหา");
+
+            const listDiv = document.getElementById('searchResultList');
+            listDiv.innerHTML = "<p style='color: blue;'>กำลังค้นหา...</p>";
+
+            try {
+                const response = await fetch(`${WEB_APP_URL}?date=${dateVal}&t=${new Date().getTime()}`);
+                const results = await response.json();
+                listDiv.innerHTML = ""; 
+
+                if(!results || results.length === 0) {
+                    listDiv.innerHTML = "<p style='color: red;'>❌ ไม่พบข้อมูลในวันที่นี้</p>";
+                    return;
+                }
+
+                results.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = "search-item"; 
+                    div.innerHTML = `
+                        <strong>${item.invNo}</strong><br>
+                        <span style="font-size: 0.9rem;">👤 ${item.custName}</span><br>
+                        <small style="color: #666;">💰 ${item.total} บาท</small>
+                    `;
+                    div.onclick = () => {
+                        document.getElementById('in_no').value = item.invNo;
+                        document.getElementById('in_date').value = item.invDate;
+                        document.getElementById('in_cust_name').value = item.custName;
+                        document.getElementById('in_cust_addr').value = item.custAddress || "";
+                        document.getElementById('in_cust_tax').value = item.custTax || "";
+                        updateInvoice(); 
+                        alert("ดึงข้อมูล " + item.invNo + " เรียบร้อยแล้วครับ (หมายเหตุ: รายการห้องพักในระบบ Multi-room ต้องกรอกใหม่ตามจริงครับ)");
+                    };
+                    listDiv.appendChild(div);
+                });
+            } catch (err) {
+                listDiv.innerHTML = "<p style='color: red;'>เกิดข้อผิดพลาดในการเชื่อมต่อ</p>";
             }
         }
 
