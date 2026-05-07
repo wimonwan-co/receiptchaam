@@ -32,7 +32,6 @@
         .preview-side { flex-grow: 1; padding: 40px; overflow-y: auto; display: flex; justify-content: center; background: #d1d5db; }
         #invoice-card { width: 210mm; min-height: 290mm; background: white; padding: 16mm 20mm; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         
-        /* ปรับสัดส่วน Header ให้ฝั่งชื่อที่พักกว้างกว่า */
         .header { display: grid; grid-template-columns: 1.8fr 1fr; gap: 10px; align-items: flex-start; margin-bottom: 20px; }
         
         .shop-info { padding-top: 0; }
@@ -52,7 +51,18 @@
         
         .client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; margin-bottom: 30px; line-height: 1.7; font-size: 14px; }
         .client-left { min-width: 0; }
-        .client-right { text-align: left; white-space: nowrap; justify-self: end; min-width: 220px; }
+        
+        /* แก้ไขฝั่งขวาให้ วันที่ ตรงกับ เลขผู้เสียภาษี */
+        .client-right { 
+            text-align: left; 
+            white-space: nowrap; 
+            justify-self: end; 
+            min-width: 220px; 
+            padding-top: 2px; /* ปรับจูนเล็กน้อยให้บรรทัดแรก (เลขที่) บาลานซ์ */
+        }
+        .date-row {
+            margin-top: 10px; /* ระยะห่าง 10px เท่ากับ margin-top ของฝั่งซ้าย */
+        }
 
         table { width: 100%; border-collapse: collapse; margin-top: 0; font-size: 14px; }
         th, td { border: 0.8px solid #b8c0cc; padding: 12px 10px; text-align: center; }
@@ -129,7 +139,7 @@
             
             <div class="client-info">
                 <div class="client-left">
-                    <strong>ชื่อลูกค้า :</strong> <span id="out_cust_name">-</span>
+                    <div><strong>ชื่อลูกค้า :</strong> <span id="out_cust_name">-</span></div>
                     <div style="margin-top: 10px;">
                         <strong>เลขประจำตัวผู้เสียภาษี :</strong> <span id="out_cust_tax">-</span>
                     </div>
@@ -138,8 +148,8 @@
                     </div>
                 </div>
                 <div class="client-right">
-                    <b>เลขที่ :</b> <span id="out_no"></span><br>
-                    <b>วันที่ :</b> <span id="out_date"></span>
+                    <div><b>เลขที่ :</b> <span id="out_no"></span></div>
+                    <div class="date-row"><b>วันที่ :</b> <span id="out_date"></span></div>
                 </div>
             </div>
 
