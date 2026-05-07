@@ -36,18 +36,26 @@
         /* --- Preview Side (Receipt) --- */
         .preview-side { flex-grow: 1; padding: 40px; overflow-y: auto; display: flex; justify-content: center; background: #d1d5db; }
         #invoice-card { width: 210mm; min-height: 290mm; background: white; padding: 16mm 20mm; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .header { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: flex-start; margin-bottom: 24px; }
         
-        /* แก้ไขส่วนที่อยู่บ้านพักให้ใหญ่ขึ้น */
-        .shop-info { padding-top: 0; }
-        .shop-info h1 { margin: 0 0 7px; font-size: 20px; line-height: 1.2; font-weight: 700; color: #1a1a1a; }
-        .shop-info p { margin: 3px 0; font-size: 13.5px; line-height: 1.5; color: #333; } 
+        /* แก้ไขส่วน Header ให้คอลัมน์ซ้ายกว้างขึ้นเพื่อรองรับที่อยู่บรรทัดเดียว */
+        .header { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: flex-start; margin-bottom: 24px; }
         
-        .title-block { text-align: center; justify-self: end; min-width: 230px; line-height: 1.35; padding-top: 0; }
+        /* แก้ไขส่วนที่อยู่บ้านพักให้รวมบรรทัดเดียวกัน */
+        .shop-info { padding-top: 0; min-width: 0; }
+        .shop-info h1 { margin: 0 0 5px; font-size: 22px; line-height: 1.2; font-weight: 700; color: #1a1a1a; }
+        .shop-info p { 
+            margin: 2px 0; 
+            font-size: 14px; 
+            line-height: 1.5; 
+            color: #333; 
+            white-space: nowrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
+        } 
+        
+        .title-block { text-align: center; justify-self: end; min-width: 200px; line-height: 1.35; padding-top: 0; }
         .receipt-title { display: block; font-size: 26px; font-weight: 700; color: #2563eb; margin: 0; line-height: 1.25; }
-        .receipt-subtitle { font-size: 12.5px; color: #555; margin-top: 2px; text-transform: uppercase; letter-spacing: 1px; }
+        .receipt-subtitle { font-size: 13px; color: #555; margin-top: 2px; text-transform: uppercase; letter-spacing: 1px; }
         
-        .section-line { border: none; border-top: 1px solid #d7dce2; margin: 20px 0 26px; }
+        .section-line { border: none; border-top: 1px solid #d7dce2; margin: 18px 0 24px; }
         
         .client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; margin-bottom: 30px; line-height: 1.7; font-size: 14px; }
         .client-left { min-width: 0; }
@@ -64,7 +72,6 @@
         .text-left { text-align: left !important; }
         .text-right { text-align: right !important; }
 
-        /* แก้ไขส่วนผู้รับเงินให้สวยงามเหมาะสม */
         .sig-section { margin-top: 100px; display: flex; justify-content: flex-end; padding-right: 20px; }
         .sig-container { text-align: center; width: 250px; }
         .sig-line { border-top: 1.2px solid #555; width: 100%; margin-bottom: 12px; }
