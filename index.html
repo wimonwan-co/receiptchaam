@@ -49,19 +49,20 @@
         
         .section-line { border: none; border-top: 1px solid #d7dce2; margin: 15px 0 24px; }
         
-        .client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; margin-bottom: 30px; line-height: 1.7; font-size: 14px; }
-        .client-left { min-width: 0; }
-        
-        /* แก้ไขฝั่งขวาให้ วันที่ ตรงกับ เลขผู้เสียภาษี */
+        /* แก้ไขส่วนข้อมูลลูกค้าให้บาลานซ์ */
+        .client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; margin-bottom: 30px; font-size: 14px; }
+        .client-left { min-width: 0; line-height: 1.8; }
         .client-right { 
             text-align: left; 
             white-space: nowrap; 
             justify-self: end; 
             min-width: 220px; 
-            padding-top: 2px; /* ปรับจูนเล็กน้อยให้บรรทัดแรก (เลขที่) บาลานซ์ */
+            line-height: 1.8;
         }
-        .date-row {
-            margin-top: 10px; /* ระยะห่าง 10px เท่ากับ margin-top ของฝั่งซ้าย */
+
+        /* ขยับวันที่ลงมาให้ตรงกับแถวเลขผู้เสียภาษี */
+        .align-with-tax {
+            margin-top: 1px; /* ปรับจูนระยะเล็กน้อยเพื่อให้เส้นฐานตัวอักษรตรงกันพอดี */
         }
 
         table { width: 100%; border-collapse: collapse; margin-top: 0; font-size: 14px; }
@@ -140,16 +141,12 @@
             <div class="client-info">
                 <div class="client-left">
                     <div><strong>ชื่อลูกค้า :</strong> <span id="out_cust_name">-</span></div>
-                    <div style="margin-top: 10px;">
-                        <strong>เลขประจำตัวผู้เสียภาษี :</strong> <span id="out_cust_tax">-</span>
-                    </div>
-                    <div style="margin-top: 10px;">
-                        <strong>ที่อยู่ :</strong> <span id="out_cust_addr">-</span>
-                    </div>
+                    <div><strong>เลขประจำตัวผู้เสียภาษี :</strong> <span id="out_cust_tax">-</span></div>
+                    <div><strong>ที่อยู่ :</strong> <span id="out_cust_addr">-</span></div>
                 </div>
                 <div class="client-right">
                     <div><b>เลขที่ :</b> <span id="out_no"></span></div>
-                    <div class="date-row"><b>วันที่ :</b> <span id="out_date"></span></div>
+                    <div class="align-with-tax"><b>วันที่ :</b> <span id="out_date"></span></div>
                 </div>
             </div>
 
