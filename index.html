@@ -37,35 +37,38 @@
         .preview-side { flex-grow: 1; padding: 40px; overflow-y: auto; display: flex; justify-content: center; background: #d1d5db; }
         #invoice-card { width: 210mm; min-height: 290mm; background: white; padding: 16mm 20mm; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .header { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: flex-start; margin-bottom: 24px; }
+        
+        /* แก้ไขส่วนที่อยู่บ้านพักให้ใหญ่ขึ้น */
         .shop-info { padding-top: 0; }
-        .shop-info h1 { margin: 0 0 7px; font-size: 14px; line-height: 1.25; font-weight: 700; }
-        .shop-info p { margin: 2px 0; font-size: 10px; line-height: 1.55; }
+        .shop-info h1 { margin: 0 0 7px; font-size: 20px; line-height: 1.2; font-weight: 700; color: #1a1a1a; }
+        .shop-info p { margin: 3px 0; font-size: 14.5px; line-height: 1.5; color: #333; } 
         
         .title-block { text-align: center; justify-self: end; min-width: 230px; line-height: 1.35; padding-top: 0; }
-        .receipt-title { display: block; font-size: 22px; font-weight: 700; color: #2563eb; margin: 0; line-height: 1.25; border-bottom: none; padding-bottom: 0; }
-        .receipt-subtitle { font-size: 11px; color: #444; margin-top: 5px; }
-        .receipt-copy { display: none; }
-        .receipt-meta { text-align: left; font-size: 12px; line-height: 1.85; }
-        .section-line { border: none; border-top: 0.6px solid #d7dce2; margin: 20px 0 26px; }
+        .receipt-title { display: block; font-size: 26px; font-weight: 700; color: #2563eb; margin: 0; line-height: 1.25; }
+        .receipt-subtitle { font-size: 12.5px; color: #555; margin-top: 2px; text-transform: uppercase; letter-spacing: 1px; }
         
-        .client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; margin-bottom: 30px; line-height: 1.65; font-size: 12px; }
+        .section-line { border: none; border-top: 1px solid #d7dce2; margin: 20px 0 26px; }
+        
+        .client-info { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; margin-bottom: 30px; line-height: 1.7; font-size: 14px; }
         .client-left { min-width: 0; }
         .client-right { text-align: left; white-space: nowrap; justify-self: end; min-width: 220px; }
-        .client-tax-box, .client-address-box { margin-top: 8px; }
         .muted-dash { color: #b8b8b8; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 0; font-size: 12px; }
-        th, td { border: 0.6px solid #b8c0cc; padding: 9px 10px; text-align: center; }
-        th { background: #fafafa; font-weight: 700; }
+        table { width: 100%; border-collapse: collapse; margin-top: 0; font-size: 14px; }
+        th, td { border: 0.8px solid #b8c0cc; padding: 12px 10px; text-align: center; }
+        th { background: #f8fafc; font-weight: 700; color: #334155; }
         
-        .total-row td { font-weight: bold; padding: 12px 14px !important; }
+        .total-row td { font-weight: bold; padding: 16px !important; background: #fcfcfc; font-size: 15px; }
         .no-border-right { border-right: none !important; }
         .no-border-left { border-left: none !important; }
         .text-left { text-align: left !important; }
         .text-right { text-align: right !important; }
 
-        .sig-section { margin-top: 54px; display: flex; justify-content: flex-end; text-align: center; }
-        .sig-line { border-top: 0.8px solid var(--line); width: 160px; margin: 36px auto 10px; }
+        /* แก้ไขส่วนผู้รับเงินให้สวยงามเหมาะสม */
+        .sig-section { margin-top: 100px; display: flex; justify-content: flex-end; padding-right: 20px; }
+        .sig-container { text-align: center; width: 250px; }
+        .sig-line { border-top: 1.2px solid #555; width: 100%; margin-bottom: 12px; }
+        .sig-text { font-size: 16px; color: #222; font-weight: 400; }
 
         @media print { 
             .editor-side { display: none; } 
@@ -78,7 +81,7 @@
     <div class="editor-side">
         <h2>ออกใบเสร็จรับเงิน (Multi-Room)</h2>
         <div class="form-group">
-            <label>เลขที่ใบเสร็จ (แก้ไขลำดับท้ายได้)</label>
+            <label>เลขที่ใบเสร็จ</label>
             <input type="text" id="in_no">
         </div>
         <div class="form-group">
@@ -106,7 +109,7 @@
             <button class="btn btn-pdf" onclick="exportPDF()">Save PDF</button>
         </div>
         <div class="search-section">
-            <label>🔍 ค้นหาตามวันที่ออกใบเสร็จ</label>
+            <label>🔍 ค้นหาตามวันที่</label>
             <input type="date" id="searchDate">
             <button onclick="searchByDate()" class="btn-search">ค้นหาข้อมูล</button>
             <div id="searchResultList"></div>
@@ -132,14 +135,14 @@
             <div class="client-info">
                 <div class="client-left">
                     <strong>ชื่อลูกค้า :</strong> <span id="out_cust_name">-</span>
-                    <div class="client-tax-box">
+                    <div style="margin-top: 10px;">
                         <strong>เลขประจำตัวผู้เสียภาษี :</strong> <span id="out_cust_tax">-</span>
                     </div>
-                    <div class="client-address-box">
+                    <div style="margin-top: 10px;">
                         <strong>ที่อยู่ :</strong> <span id="out_cust_addr">-</span>
                     </div>
                 </div>
-                <div class="client-right receipt-meta">
+                <div class="client-right">
                     <b>เลขที่ :</b> <span id="out_no"></span><br>
                     <b>วันที่ :</b> <span id="out_date"></span>
                 </div>
@@ -157,8 +160,12 @@
                     </tr>
                 </tfoot>
             </table>
+            
             <div class="sig-section">
-                <div><div class="sig-line"></div><p>ผู้รับเงิน (Receiver)</p></div>
+                <div class="sig-container">
+                    <div class="sig-line"></div>
+                    <div class="sig-text">ผู้รับเงิน (Receiver)</div>
+                </div>
             </div>
         </div>
     </div>
@@ -201,12 +208,12 @@
             document.getElementById('out_no').innerText = document.getElementById('in_no').value;
             const d = new Date(document.getElementById('in_date').value);
             document.getElementById('out_date').innerText = isNaN(d) ? "" : d.toLocaleDateString('th-TH', {day:'numeric', month:'long', year:'numeric'});
-            const custName = document.getElementById('in_cust_name').value.trim();
-            document.getElementById('out_cust_name').innerHTML = custName ? custName : "<span class='muted-dash'>-</span>";
-            const custAddr = document.getElementById('in_cust_addr').value.trim();
-            document.getElementById('out_cust_addr').innerHTML = custAddr ? custAddr : "<span class='muted-dash'>-</span>";
-            const custTax = document.getElementById('in_cust_tax').value.trim();
-            document.getElementById('out_cust_tax').innerHTML = custTax ? custTax : "<span class='muted-dash'>-</span>";
+            
+            const fields = { 'in_cust_name': 'out_cust_name', 'in_cust_addr': 'out_cust_addr', 'in_cust_tax': 'out_cust_tax' };
+            for(let key in fields) {
+                const val = document.getElementById(key).value.trim();
+                document.getElementById(fields[key]).innerHTML = val ? val : "<span class='muted-dash'>-</span>";
+            }
 
             const rows = document.querySelectorAll('.room-item-row');
             const tbody = document.getElementById('out_table_body');
@@ -222,39 +229,11 @@
             document.getElementById('out_thai').innerText = ArabicNumberToThaiText(grandTotal.toFixed(2));
         }
 
-        async function searchByDate() {
-            const dateVal = document.getElementById('searchDate').value;
-            if(!dateVal) return alert("กรุณาเลือกวันที่ก่อนค้นหา");
-            const listDiv = document.getElementById('searchResultList');
-            listDiv.innerHTML = "<p style='color: blue;'>กำลังค้นหา...</p>";
-            try {
-                const response = await fetch(`${WEB_APP_URL}?date=${dateVal}&t=${new Date().getTime()}`);
-                const results = await response.json();
-                listDiv.innerHTML = ""; 
-                if(!results || results.length === 0) { listDiv.innerHTML = "<p style='color: red;'>❌ ไม่พบข้อมูล</p>"; return; }
-                results.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = "search-item"; 
-                    div.innerHTML = `<strong>${item.invNo}</strong> | 👤 ${item.custName}<br><small>💰 ${item.total} บาท</small>`;
-                    div.onclick = () => {
-                        document.getElementById('in_no').value = item.invNo;
-                        document.getElementById('in_date').value = item.invDate;
-                        document.getElementById('in_cust_name').value = item.custName;
-                        document.getElementById('in_cust_addr').value = item.custAddress || "";
-                        document.getElementById('in_cust_tax').value = item.custTax || "";
-                        updateInvoice(); 
-                        alert("ดึงข้อมูลสำเร็จ! กรุณาเพิ่มรายการห้องพักด้านบนครับ");
-                    };
-                    listDiv.appendChild(div);
-                });
-            } catch (err) { listDiv.innerHTML = "<p style='color: red;'>เชื่อมต่อล้มเหลว</p>"; }
-        }
-
         async function saveToSheet() {
             const rows = document.querySelectorAll('.room-item-row');
             if(rows.length === 0) return alert("กรุณาเพิ่มรายการห้องพัก");
             let taxIdValue = document.getElementById('in_cust_tax').value;
-            if (taxIdValue) { taxIdValue = "'" + taxIdValue; }
+            if (taxIdValue) taxIdValue = "'" + taxIdValue;
 
             const data = {
                 receiptNo: document.getElementById('in_no').value,
@@ -268,7 +247,6 @@
 
             const btn = document.querySelector('.btn-sheet'); 
             btn.innerText = "กำลังบันทึก..."; btn.disabled = true;
-
             try {
                 await fetch(WEB_APP_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
                 alert("บันทึกสำเร็จ!");
