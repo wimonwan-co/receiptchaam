@@ -15,6 +15,7 @@
             --primary: #333; 
             --accent: #27ae60; 
             --bg: #f4f6f8; 
+            --danger: #e74c3c;
         }
 
         * { 
@@ -22,7 +23,6 @@
             font-family: 'Mali', cursive; 
             line-height: 1.4; 
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         body { 
@@ -33,9 +33,8 @@
             color: #333; 
         }
 
-        /* --- ฝั่งแก้ไขข้อมูล (Editor Side) --- */
         .editor-side {
-            width: 420px; 
+            width: 450px; 
             background: white; 
             padding: 25px;
             overflow-y: auto; 
@@ -54,20 +53,59 @@
         
         label { 
             display: block; 
-            font-size: 0.9rem; 
+            font-size: 0.85rem; 
             font-weight: bold; 
             margin-bottom: 5px; 
         }
 
         input, select, textarea {
             width: 100%; 
-            padding: 10px; 
+            padding: 8px; 
             border: 1px solid #ddd; 
-            border-radius: 8px; 
-            font-size: 1rem;
+            border-radius: 6px; 
+            font-size: 0.95rem;
         }
-        
-        /* ปุ่มกดต่างๆ */
+
+        /* ส่วนรายการห้องพักที่เพิ่มได้ */
+        .room-item-row {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            position: relative;
+        }
+
+        .room-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .btn-add-room {
+            width: 100%;
+            padding: 10px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .btn-remove {
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            float: right;
+        }
+
         .action-btns { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
@@ -89,37 +127,7 @@
         .btn-pdf { background: #e74c3c; }
         .btn-sheet { background: #3498db; }
         .btn-search { background: #2c3e50; width: 100%; margin-top: 10px; }
-        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-        /* ส่วนค้นหา */
-        .search-section { 
-            margin-top: 30px; 
-            border-top: 2px solid #eee; 
-            padding-top: 20px; 
-        }
-
-        #searchResultList {
-            margin-top: 15px; 
-            max-height: 300px; 
-            overflow-y: auto;
-        }
-
-        .search-item {
-            padding: 12px; 
-            border: 1px solid #eee; 
-            border-radius: 8px; 
-            margin-bottom: 8px; 
-            cursor: pointer; 
-            background: #fff; 
-            transition: 0.2s;
-        }
-
-        .search-item:hover { 
-            border-color: var(--accent); 
-            background: #f0fff4; 
-        }
-
-        /* --- ฝั่งแสดงผล (Preview Side) --- */
         .preview-side {
             flex-grow: 1; 
             padding: 40px; 
@@ -131,82 +139,50 @@
 
         #invoice-card {
             width: 210mm; 
-            height: 290mm; 
+            min-height: 290mm; 
             background: white;
             padding: 15mm 20mm; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            overflow: hidden; /* สั่งซ่อนส่วนที่เกินกระดาษออกไป */
         }
 
-        /* ส่วนหัวใบเสร็จ */
         .header { 
             display: flex; 
             justify-content: space-between; 
-            margin-bottom: 40px; 
+            margin-bottom: 30px; 
         }
 
-        .shop-info h1 { margin: 0; font-size: 28px; color: #000; }
-        .shop-info p { margin: 3px 0; font-size: 1rem; line-height: 1.8; }
-        
+        .shop-info h1 { margin: 0; font-size: 26px; }
         .receipt-title { 
             font-size: 20px; 
             font-weight: 700; 
-            color: #333; 
-            margin: 0;
-            padding-bottom: 5px; 
             border-bottom: 2px solid var(--accent); 
             margin-bottom: 10px;
         }
 
-        .meta-data { font-size: 1rem; line-height: 2.2; }
-
-        /* ข้อมูลลูกค้า */
         .client-info { 
             display: grid; 
             grid-template-columns: 1.6fr 1fr; 
-            margin-bottom: 30px; 
-            padding: 15px; 
-            border: none; 
-            background: none;
-            line-height: 2.0;
-        }
-
-        #out_cust_name {
-            display: inline-block;
-            font-size: 0.95rem; 
+            margin-bottom: 20px; 
             line-height: 1.8;
-            word-break: break-word;
-            max-width: 100%;
-            vertical-align: top;
-            margin-bottom: 8px; 
         }
 
-        #out_cust_addr {
-            font-size: 0.9rem;
-            line-height: 1.8;
-            display: inline-block;
-        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #000; padding: 10px; text-align: center; }
+        th { background: #f9f9f9; }
 
-        /* ตารางรายการ */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #000; text-align: center; padding: 12px; }
-        th { 
+        /* จัดการเส้นขอบบรรทัดสุดท้าย */
+        .total-row td { 
             font-weight: bold; 
-            background: #f9f9f9; 
-            white-space: nowrap; 
+            padding: 15px !important; 
         }
-        td { 
-            padding: 15px 10px; 
-            line-height: 1.6; 
-        }
+        .no-border-right { border-right: none !important; }
+        .no-border-left { border-left: none !important; }
 
-        .total-row td { font-weight: bold; padding: 15px !important; }
-        .text-left { text-align: left !important; padding-left: 20px !important; }
-        .text-right { text-align: right !important; padding-right: 20px !important; }
+        .text-left { text-align: left !important; }
+        .text-right { text-align: right !important; }
 
-        /* ส่วนลายเซ็น */
         .sig-section { 
-            margin-top: 80px; 
+            margin-top: 50px; 
             display: flex; 
             justify-content: flex-end; 
             text-align: center; 
@@ -215,21 +191,20 @@
         .sig-line { 
             border-top: 1px solid #000; 
             width: 160px; 
-            margin: 60px auto 10px; 
+            margin: 50px auto 10px; 
         }
 
-        /* ตั้งค่าตอนพิมพ์ Print/PDF */
         @media print { 
             .editor-side { display: none; } 
-            .preview-side { padding: 0; } 
-            #invoice-card { box-shadow: none; } 
+            .preview-side { padding: 0; background: white; } 
+            #invoice-card { box-shadow: none; width: 100%; } 
         }
     </style>
 </head>
 <body>
 
     <div class="editor-side">
-        <h2>ออกใบเสร็จรับเงิน</h2>
+        <h2>ออกใบเสร็จรับเงิน (Multi-Room)</h2>
         
         <div class="form-group">
             <label>เลขที่ใบเสร็จ</label>
@@ -240,71 +215,32 @@
             <input type="date" id="in_date">
         </div>
 
-        <hr style="border:0.5px solid #eee;">
-        
         <div class="form-group">
             <label>ชื่อลูกค้า</label>
-            <input type="text" id="in_cust_name" placeholder="ระบุชื่อผู้เช่า">
+            <input type="text" id="in_cust_name">
         </div>
         <div class="form-group">
             <label>ที่อยู่ลูกค้า</label>
-            <textarea id="in_cust_addr" rows="2" placeholder="ที่อยู่สำหรับออกใบเสร็จ"></textarea>
+            <textarea id="in_cust_addr" rows="2"></textarea>
         </div>
         <div class="form-group">
             <label>เลขผู้เสียภาษี</label>
-            <input type="text" id="in_cust_tax" placeholder="เลขประจำตัวผู้เสียภาษี">
+            <input type="text" id="in_cust_tax">
         </div>
 
-        <hr style="border:0.5px solid #eee;">
-        
-        <div class="form-group">
-            <label>เลือกห้องพัก</label>
-            <select id="in_room">
-                <option value="บ้าน 5 เตียงหน้าทะเล">บ้าน 5 เตียงหน้าทะเล</option>
-                <option value="บ้าน 8 เตียงหน้าทะเล">บ้าน 8 เตียงหน้าทะเล</option>
-                <option value="บ้าน 8 เตียงบนเนิน">บ้าน 8 เตียงบนเนิน</option>
-                <option value="บ้านชมพู">บ้านชมพู</option>
-                <option value="บ้านส้ม">บ้านส้ม</option>
-                <option value="บ้านลอฟท์1">บ้านลอฟท์1</option>
-                <option value="บ้านลอฟท์2">บ้านลอฟท์2</option>
-                <option value="บ้านลอฟท์3">บ้านลอฟท์3</option>
-                <option value="บ้านลอฟท์4">บ้านลอฟท์4</option>
-                <option value="บ้านแฝดA">บ้านแฝดA</option>
-                <option value="บ้านแฝดB">บ้านแฝดB</option>
-                <option value="รุ้ง1">รุ้ง1</option>
-                <option value="รุ้ง2">รุ้ง2</option>
-                <option value="รุ้ง3">รุ้ง3</option>
-                <option value="รุ้ง4">รุ้ง4</option>
-                <option value="รุ้ง5">รุ้ง5</option>
-                <option value="รุ้ง6">รุ้ง6</option>
-                <option value="รุ้ง7">รุ้ง7</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>ราคา (บาท)</label>
-            <input type="number" id="in_price" value="0">
-        </div>
-        <div class="form-group">
-            <label>จำนวนคืน</label>
-            <input type="number" id="in_qty" value="1">
-        </div>
+        <hr>
+        <label>รายการห้องพัก</label>
+        <div id="room-list-editor"></div>
+        <button class="btn-add-room" onclick="addRoomRow()">+ เพิ่มห้องพัก</button>
 
         <div class="action-btns">
             <button class="btn btn-sheet" onclick="saveToSheet()">Save to Sheet</button>
             <button class="btn btn-pdf" onclick="exportPDF()">Save PDF</button>
         </div>
-
-        <div class="search-section">
-            <label>🔍 ค้นหาตามวันที่ออกใบเสร็จ</label>
-            <input type="date" id="searchDate">
-            <button onclick="searchByDate()" class="btn btn-search">ค้นหาข้อมูล</button>
-            <div id="searchResultList"></div>
-        </div>
     </div>
 
     <div class="preview-side">
         <div id="invoice-card">
-            
             <div class="header">
                 <div class="shop-info">
                     <h1>บ้านพักหน้าหาดชะอำใต้</h1>
@@ -313,10 +249,8 @@
                 </div>
                 <div class="title-block">
                     <div class="receipt-title">ใบเสร็จรับเงิน/RECEIPT</div>
-                    <div class="meta-data">
-                        <b>เลขที่:</b> <span id="out_no"></span><br>
-                        <b>วันที่:</b> <span id="out_date"></span>
-                     </div>
+                    <b>เลขที่:</b> <span id="out_no"></span><br>
+                    <b>วันที่:</b> <span id="out_date"></span>
                 </div>
             </div>
 
@@ -335,24 +269,20 @@
                     <tr>
                         <th width="10%">ลำดับ</th>
                         <th width="40%">รายการห้องพัก</th>
-                        <th width="15%">จำนวนคืน</th>
+                        <th width="10%">คืน</th>
                         <th width="20%">ราคา/คืน</th>
-                        <th width="15%">รวมเงิน</th>
+                        <th width="20%">รวมเงิน</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><span id="out_item"></span></td>
-                        <td><span id="out_qty"></span></td>
-                        <td style="text-align: right;"><span id="out_price"></span></td>
-                        <td style="text-align: right;"><span id="out_total"></span></td>
-                    </tr>
-                </tbody>
+                <tbody id="out_table_body"></tbody>
                 <tfoot>
                     <tr class="total-row">
-                        <td colspan="2" class="text-left">(<span id="out_thai"></span>)</td>
-                        <td colspan="3" class="text-right">ยอดรวมสุทธิ: <span id="out_grand">0.00</span> บาท</td>
+                        <td colspan="2" class="text-left no-border-right">
+                            (<span id="out_thai">ศูนย์บาทถ้วน</span>)
+                        </td>
+                        <td colspan="3" class="text-right no-border-left">
+                            ยอดรวมสุทธิ: <span id="out_grand">0.00</span> บาท
+                        </td>
                     </tr>
                 </tfoot>
             </table>
@@ -363,53 +293,102 @@
                     <p>ผู้รับเงิน (Receiver)</p>
                 </div>
             </div>
-            
         </div>
     </div>
 
     <script>
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJYN9aYRwI_uwMvw_H5bAuwpz4amSR5iANJQjBGDHkMTSKJsVApdh9ZVOlMC0RMYtN/exec"; 
+        const roomOptions = [
+            "บ้าน 5 เตียงหน้าทะเล", "บ้าน 8 เตียงหน้าทะเล", "บ้าน 8 เตียงบนเนิน",
+            "บ้านชมพู", "บ้านส้ม", "บ้านลอฟท์1", "บ้านลอฟท์2", "บ้านลอฟท์3", "บ้านลอฟท์4",
+            "บ้านแฝดA", "บ้านแฝดB", "รุ้ง1", "รุ้ง2", "รุ้ง3", "รุ้ง4", "รุ้ง5", "รุ้ง6", "รุ้ง7"
+        ];
 
-        const inputs = ['in_no', 'in_date', 'in_cust_name', 'in_cust_addr', 'in_cust_tax', 'in_room', 'in_price', 'in_qty'];
-        inputs.forEach(id => document.getElementById(id).addEventListener('input', updateInvoice));
-
-        // อัปเดตข้อมูลพรีวิว
-        function updateInvoice() {
-            const price = parseFloat(document.getElementById('in_price').value) || 0;
-            const qty = parseFloat(document.getElementById('in_qty').value) || 0;
-            const total = price * qty;
-
-            document.getElementById('out_no').innerText = document.getElementById('in_no').value;
+        function addRoomRow(data = {name: roomOptions[0], price: 0, qty: 1}) {
+            const container = document.getElementById('room-list-editor');
+            const rowId = Date.now();
+            const div = document.createElement('div');
+            div.className = 'room-item-row';
+            div.id = `row-${rowId}`;
             
+            div.innerHTML = `
+                <button class="btn-remove" onclick="removeRoomRow('${rowId}')">ลบ</button>
+                <label>รายการที่ ${container.children.length + 1}</label>
+                <select class="in-room-select" onchange="updateInvoice()">
+                    ${roomOptions.map(opt => `<option value="${opt}" ${opt === data.name ? 'selected' : ''}>${opt}</option>`).join('')}
+                </select>
+                <div class="room-grid">
+                    <div>
+                        <label>ราคา</label>
+                        <input type="number" class="in-room-price" value="${data.price}" oninput="updateInvoice()">
+                    </div>
+                    <div>
+                        <label>คืน</label>
+                        <input type="number" class="in-room-qty" value="${data.qty}" oninput="updateInvoice()">
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            updateInvoice();
+        }
+
+        function removeRoomRow(rowId) {
+            document.getElementById(`row-${rowId}`).remove();
+            updateInvoice();
+        }
+
+        function updateInvoice() {
+            document.getElementById('out_no').innerText = document.getElementById('in_no').value;
             const d = new Date(document.getElementById('in_date').value);
             document.getElementById('out_date').innerText = isNaN(d) ? "" : d.toLocaleDateString('th-TH', {day:'numeric', month:'long', year:'numeric'});
-
             document.getElementById('out_cust_name').innerText = document.getElementById('in_cust_name').value || "-";
             document.getElementById('out_cust_addr').innerText = document.getElementById('in_cust_addr').value || "-";
             document.getElementById('out_cust_tax').innerText = document.getElementById('in_cust_tax').value || "-";
-            document.getElementById('out_item').innerText = document.getElementById('in_room').value;
-            document.getElementById('out_qty').innerText = qty;
-            document.getElementById('out_price').innerText = price.toLocaleString(undefined, {minimumFractionDigits:2});
-            document.getElementById('out_total').innerText = total.toLocaleString(undefined, {minimumFractionDigits:2});
-            document.getElementById('out_grand').innerText = total.toLocaleString(undefined, {minimumFractionDigits:2});
-            
-            document.getElementById('out_thai').innerText = ArabicNumberToThaiText(total.toFixed(2));
+
+            const rows = document.querySelectorAll('.room-item-row');
+            const tbody = document.getElementById('out_table_body');
+            tbody.innerHTML = '';
+            let grandTotal = 0;
+
+            rows.forEach((row, index) => {
+                const name = row.querySelector('.in-room-select').value;
+                const price = parseFloat(row.querySelector('.in-room-price').value) || 0;
+                const qty = parseFloat(row.querySelector('.in-room-qty').value) || 0;
+                const total = price * qty;
+                grandTotal += total;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td class="text-left">${name}</td>
+                        <td>${qty}</td>
+                        <td class="text-right">${price.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
+                        <td class="text-right">${total.toLocaleString(undefined, {minimumFractionDigits:2})}</td>
+                    </tr>
+                `;
+            });
+
+            if(rows.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">ไม่มีรายการห้องพัก</td></tr>';
+            }
+
+            document.getElementById('out_grand').innerText = grandTotal.toLocaleString(undefined, {minimumFractionDigits:2});
+            document.getElementById('out_thai').innerText = ArabicNumberToThaiText(grandTotal.toFixed(2));
         }
 
-        // บันทึกลง Google Sheets
         async function saveToSheet() {
+            const rows = document.querySelectorAll('.room-item-row');
+            if(rows.length === 0) return alert("กรุณาเพิ่มรายการห้องพักอย่างน้อย 1 รายการ");
+
             const data = {
                 receiptNo: document.getElementById('in_no').value,
                 date: document.getElementById('in_date').value,
                 customerName: document.getElementById('in_cust_name').value,
                 customerAddress: document.getElementById('in_cust_addr').value,
                 taxId: document.getElementById('in_cust_tax').value,
-                roomName: document.getElementById('in_room').value,
-                pricePerNight: parseFloat(document.getElementById('in_price').value) || 0,
-                totalAmount: parseFloat(document.getElementById('in_price').value) * parseFloat(document.getElementById('in_qty').value)
+                roomName: Array.from(rows).map(r => r.querySelector('.in-room-select').value).join(', '),
+                totalAmount: parseFloat(document.getElementById('out_grand').innerText.replace(/,/g, ''))
             };
-            
-            if(!data.customerName) return alert("กรุณาระบุชื่อลูกค้าก่อนบันทึก");
             
             const btn = document.querySelector('.btn-sheet');
             btn.innerText = "กำลังบันทึก...";
@@ -422,7 +401,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                alert("บันทึกข้อมูลสำเร็จ!");
+                alert("บันทึกข้อมูลยอดรวมสำเร็จ!");
             } catch (error) {
                 alert("ผิดพลาด: " + error);
             } finally {
@@ -431,86 +410,24 @@
             }
         }
 
-        // ค้นหาใบเสร็จตามวันที่
-        async function searchByDate() {
-            const dateVal = document.getElementById('searchDate').value;
-            if(!dateVal) return alert("กรุณาเลือกวันที่ก่อนค้นหา");
-
-            const listDiv = document.getElementById('searchResultList');
-            listDiv.innerHTML = "<p style='color: blue;'>กำลังค้นหา...</p>";
-
-            try {
-                const response = await fetch(`${WEB_APP_URL}?date=${dateVal}&t=${new Date().getTime()}`);
-                const results = await response.json();
-                
-                listDiv.innerHTML = ""; 
-
-                if(!results || results.length === 0) {
-                    listDiv.innerHTML = "<p style='color: red;'>❌ ไม่พบข้อมูลในวันที่นี้</p>";
-                    return;
-                }
-
-                results.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = "search-item"; 
-                    
-                    div.innerHTML = `
-                        <strong>${item.invNo}</strong><br>
-                        <span style="font-size: 0.9rem;">👤 ${item.custName}</span><br>
-                        <small style="color: #666;">🏠 ${item.roomType} | 💰 ${item.total} บาท</small>
-                    `;
-
-                    div.onclick = () => {
-                        document.getElementById('in_no').value = item.invNo;
-                        document.getElementById('in_date').value = item.invDate;
-                        document.getElementById('in_cust_name').value = item.custName;
-                        document.getElementById('in_cust_addr').value = item.custAddress || "";
-                        document.getElementById('in_cust_tax').value = item.custTax || "";
-                        document.getElementById('in_room').value = item.roomType;
-                        document.getElementById('in_price').value = item.price;
-                        
-                        updateInvoice(); 
-                        alert("ดึงข้อมูล " + item.invNo + " เรียบร้อยแล้วครับ");
-                    };
-                    listDiv.appendChild(div);
-                });
-            } catch (err) {
-                console.error(err);
-                listDiv.innerHTML = "<p style='color: red;'>เกิดข้อผิดพลาดในการเชื่อมต่อ</p>";
-            }
-        }
-
-        // ส่งออกเป็น PDF
         function exportPDF() {
             const element = document.getElementById('invoice-card');
             const invNo = document.getElementById('in_no').value;
-            
-            const opt = {
+            html2pdf().set({
                 margin: 0,
-                filename: 'Receipt_' + invNo + '.pdf',
+                filename: `Receipt_${invNo}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true, 
-                    letterRendering: true, 
-                    logging: false ,
-                    scrollY: 0  /* เพิ่มคำสั่งนี้เข้าไป */
-                },
+                html2canvas: { scale: 2, useCORS: true },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(element).save();
+            }).from(element).save();
         }
 
-        // แปลงตัวเลขเป็นตัวอักษรภาษาไทย
         function ArabicNumberToThaiText(Number) {
             const thaiNumber = ["ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"];
             const thaiUnit = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"];
             if (isNaN(Number) || Number == 0) return "ศูนย์บาทถ้วน";
-            
             let [integer, fraction] = Number.split(".");
             let outputText = "";
-            
             for (let i = 0; i < integer.length; i++) {
                 let n = integer.substr(i, 1);
                 if (n != "0") {
@@ -521,35 +438,25 @@
                     outputText += thaiUnit[integer.length - i - 1];
                 }
             }
-            
             outputText += "บาท";
             outputText += (!fraction || fraction == "00") ? "ถ้วน" : "สตางค์";
             return outputText;
         }
 
-        // สร้างเลขที่ใบเสร็จอัตโนมัติ
         async function autoGenerateReceiptNo() {
-            try {
-                const response = await fetch(WEB_APP_URL);
-                const data = await response.json();
-                const d = new Date();
-                const prefix = `RE${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-`;
-                
-                let nextNum = 1;
-                if (data.length > 0) {
-                    const lastNo = data[data.length - 1].invNo;
-                    if(lastNo.startsWith(prefix)) nextNum = parseInt(lastNo.split('-')[2]) + 1;
-                }
-                document.getElementById('in_no').value = prefix + String(nextNum).padStart(3, '0');
-            } catch (err) {
-                document.getElementById('in_no').value = "RE-ERROR";
-            }
+            const d = new Date();
+            const prefix = `RE${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-`;
+            document.getElementById('in_no').value = prefix + "XXX"; 
             updateInvoice();
         }
 
-        // ตั้งค่าเริ่มต้นเมื่อเปิดหน้าเว็บ
-        document.getElementById('in_date').valueAsDate = new Date(); 
-        autoGenerateReceiptNo(); 
+        ['in_date', 'in_cust_name', 'in_cust_addr', 'in_cust_tax'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateInvoice);
+        });
+
+        document.getElementById('in_date').valueAsDate = new Date();
+        autoGenerateReceiptNo();
+        addRoomRow();
     </script>
 </body>
 </html>
