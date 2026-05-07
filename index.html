@@ -11,6 +11,7 @@
         * { box-sizing: border-box; font-family: 'Mali', cursive; line-height: 1.4; }
         body { margin: 0; display: flex; height: 100vh; background: var(--bg); color: #333; }
 
+        /* --- Editor Side --- */
         .editor-side { width: 450px; background: white; padding: 25px; overflow-y: auto; border-right: 1px solid #ddd; }
         h2 { font-size: 1.2rem; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
         .form-group { margin-bottom: 12px; }
@@ -27,33 +28,44 @@
         .btn-pdf { background: #e74c3c; }
         .btn-sheet { background: #3498db; }
 
-        /* --- ส่วนค้นหา --- */
         .search-section { margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
         .btn-search { background: #2c3e50; width: 100%; margin-top: 10px; padding: 12px; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
         #searchResultList { margin-top: 15px; max-height: 250px; overflow-y: auto; }
         .search-item { padding: 10px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px; cursor: pointer; background: #fff; font-size: 0.9rem; }
         .search-item:hover { border-color: var(--accent); background: #f0fff4; }
 
-        /* --- Preview --- */
+        /* --- Preview Side (Receipt) --- */
         .preview-side { flex-grow: 1; padding: 40px; overflow-y: auto; display: flex; justify-content: center; background: #d1d5db; }
         #invoice-card { width: 210mm; min-height: 290mm; background: white; padding: 15mm 20mm; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .header { display: flex; justify-content: space-between; margin-bottom: 30px; }
+        .header { display: flex; justify-content: space-between; margin-bottom: 40px; }
         .shop-info h1 { margin: 0; font-size: 26px; }
-        .receipt-title { font-size: 20px; font-weight: 700; border-bottom: 2px solid var(--accent); margin-bottom: 10px; }
-        .client-info { display: grid; grid-template-columns: 1.6fr 1fr; margin-bottom: 20px; line-height: 1.8; }
+        
+        /* แก้ระยะห่างของวันที่ */
+        .title-block { line-height: 2.5; } 
+        .receipt-title { font-size: 20px; font-weight: 700; border-bottom: 2px solid var(--accent); margin-bottom: 15px; line-height: 1.4; }
+        
+        /* แก้ระยะห่างของที่อยู่ลูกค้า */
+        .client-info { display: grid; grid-template-columns: 1.6fr 1fr; margin-bottom: 30px; line-height: 2.2; }
+        .client-address-box { margin-top: 10px; }
+
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #000; padding: 10px; text-align: center; }
         th { background: #f9f9f9; }
         
-        /* เอาเส้นคั่นบรรทัดสุดท้ายออก */
         .total-row td { font-weight: bold; padding: 15px !important; }
         .no-border-right { border-right: none !important; }
         .no-border-left { border-left: none !important; }
         .text-left { text-align: left !important; }
         .text-right { text-align: right !important; }
 
-        .sig-section { margin-top: 50px; display: flex; justify-content: flex-end; text-align: center; }
+        .sig-section { margin-top: 80px; display: flex; justify-content: flex-end; text-align: center; }
         .sig-line { border-top: 1px solid #000; width: 160px; margin: 50px auto 10px; }
+
+        @media print { 
+            .editor-side { display: none; } 
+            .preview-side { padding: 0; background: white; } 
+            #invoice-card { box-shadow: none; width: 100%; } 
+        }
     </style>
 </head>
 <body>
@@ -87,7 +99,6 @@
             <button class="btn btn-sheet" onclick="saveToSheet()">Save to Sheet</button>
             <button class="btn btn-pdf" onclick="exportPDF()">Save PDF</button>
         </div>
-
         <div class="search-section">
             <label>🔍 ค้นหาตามวันที่ออกใบเสร็จ</label>
             <input type="date" id="searchDate">
@@ -110,15 +121,19 @@
                     <b>วันที่:</b> <span id="out_date"></span>
                 </div>
             </div>
+            
             <div class="client-info">
                 <div>
-                    <strong>ชื่อลูกค้า:</strong> <span id="out_cust_name">-</span><br>
-                    <strong>ที่อยู่:</strong> <span id="out_cust_addr">-</span>
+                    <strong>ชื่อลูกค้า:</strong> <span id="out_cust_name">-</span>
+                    <div class="client-address-box">
+                        <strong>ที่อยู่:</strong> <span id="out_cust_addr">-</span>
+                    </div>
                 </div>
                 <div style="text-align: right;">
                     <strong>เลขผู้เสียภาษี:</strong> <span id="out_cust_tax">-</span>
                 </div>
             </div>
+
             <table>
                 <thead>
                     <tr><th width="10%">ลำดับ</th><th width="40%">รายการห้องพัก</th><th width="10%">คืน</th><th width="20%">ราคา/คืน</th><th width="20%">รวมเงิน</th></tr>
@@ -139,7 +154,8 @@
 
     <script>
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJYN9aYRwI_uwMvw_H5bAuwpz4amSR5iANJQjBGDHkMTSKJsVApdh9ZVOlMC0RMYtN/exec"; 
-        const roomOptions = ["บ้าน 5 เตียงหน้าทะเล", "บ้าน 8 เตียงหน้าทะเล", "บ้าน 8 เตียงบนเนิน", "บ้านชมพู", "บ้านส้ม", "บ้านลอฟท์ 1", "บ้านลอฟท์ 2", "บ้านลอฟท์ 3", "บ้านลอฟท์ 4", "บ้านแฝด A", "บ้านแฝด B", "บ้านรุ้ง 1", "บ้านรุ้ง 2", "บ้านรุ้ง 3", "บ้านรุ้ง 4", "บ้านรุ้ง 5", "บ้านรุ้ง 6", "บ้านรุ้ง 7"];
+        const roomOptions = ["บ้าน 5 เตียงหน้าทะเล", "บ้าน 8 เตียงหน้าทะเล", "บ้าน 8 เตียงบนเนิน", "บ้านชมพู", "บ้านส้ม", "บ้านลอฟท์ 1", "บ้านลอฟท์ 2", "บ้านลอฟท์ 3", 
+        "บ้านลอฟท์ 4", "บ้านแฝด A", "บ้านแฝด B", "บ้านรุ้ง 1", "บ้านรุ้ง 2", "บ้านรุ้ง 3", "บ้านรุ้ง 4", "บ้านรุ้ง 5", "บ้านรุ้ง 6", "บ้านรุ้ง 7"];
 
         function addRoomRow(data = {name: roomOptions[0], price: 0, qty: 1}) {
             const container = document.getElementById('room-list-editor');
@@ -228,7 +244,11 @@
 
         function exportPDF() {
             const element = document.getElementById('invoice-card');
-            html2pdf().set({ filename: `Receipt_${document.getElementById('in_no').value}.pdf`, html2canvas: { scale: 2 }, jsPDF: { format: 'a4' } }).from(element).save();
+            html2pdf().set({ 
+                filename: `Receipt_${document.getElementById('in_no').value}.pdf`, 
+                html2canvas: { scale: 2 }, 
+                jsPDF: { format: 'a4', orientation: 'portrait' } 
+            }).from(element).save();
         }
 
         function ArabicNumberToThaiText(Number) {
@@ -254,7 +274,7 @@
         document.getElementById('in_date').valueAsDate = new Date();
         ['in_date', 'in_cust_name', 'in_cust_addr', 'in_cust_tax'].forEach(id => document.getElementById(id).addEventListener('input', updateInvoice));
         addRoomRow();
-        document.getElementById('in_no').value = "RE-" + Date.now(); // เลขที่ชั่วคราว
+        document.getElementById('in_no').value = "RE-" + Date.now();
         updateInvoice();
     </script>
 </body>
